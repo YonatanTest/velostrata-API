@@ -1,3 +1,10 @@
+
+# Copyright © 2017 Velostrata Ltd.
+# Licensed under MIT license:  
+# https://opensource.org/licenses/mit-license.php
+# Your use is on an "AS-IS" basis, and subject to the terms and conditions of this license.
+
+
 swagger: '2.0'
 info:
   description: API Documentation
