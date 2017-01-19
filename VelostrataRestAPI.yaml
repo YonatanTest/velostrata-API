@@ -1,0 +1,2650 @@
+swagger: '2.0'
+info:
+  description: API Documentation
+  version: '2.5'
+  title: Velostrata REST API
+  termsOfService: 'urn:tos'
+  contact: {}
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0'
+schemes:
+  - http
+securityDefinitions:
+  basicAuth:
+    type: basic
+    description: HTTP Basic Authentication. Works over `HTTP` and `HTTPS`
+basePath: /velostrata/api/v25
+security:
+  - basicAuth: []
+tags:
+  - name: Cloud
+    description: Cloud Operations
+  - name: CloudCredentials
+    description: Cloud Credentials Operations
+  - name: CEs
+    description: Cloud Extensions
+  - name: VMs
+    description: Virtual Machines
+  - name: Tasks
+    description: Tasks
+  - name: Management
+    description: Management operations
+paths:
+  '/cloud/aws/regions':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - Cloud
+      summary: List AWS Regions
+      operationId: restListAwsRegionsUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: credentialsName
+          in: query
+          description: Cloud credentials name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Region'
+  '/cloud/aws/roles':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - Cloud
+      summary: List AWS IAM Roles
+      operationId: restListAwsIamRolesUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: credentialsName
+          in: query
+          description: Cloud credentials name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Role'
+  '/cloud/aws/securitygroups':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - Cloud
+      summary: List AWS Security Groups
+      operationId: restListAwsSecurityGroupsUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: region
+          in: query
+          description: AWS region
+          required: true
+          type: string
+        - name: vpc
+          in: query
+          description: vpc
+          required: true
+          type: string
+        - name: credentialsName
+          in: query
+          description: Cloud credentials name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SecurityGroup'
+  '/cloud/aws/storagetypes':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - Cloud
+      summary: List AWS Storage Types
+      operationId: restListAwsStorageTypesUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              type: string
+  '/cloud/aws/subnets':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - Cloud
+      summary: List AWS Subnets
+      operationId: restListAwsSubnetsUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: region
+          in: query
+          description: AWS region
+          required: true
+          type: string
+        - name: vpc
+          in: query
+          description: vpc
+          required: true
+          type: string
+        - name: credentialsName
+          in: query
+          description: Cloud credentials name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Subnet'
+  '/cloud/aws/vpcs':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - Cloud
+      summary: List AWS Vpcs
+      operationId: restListAwsVpcsUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: region
+          in: query
+          description: AWS region
+          required: true
+          type: string
+        - name: credentialsName
+          in: query
+          description: Cloud credentials name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Vpc'
+  '/cloud/azure/locations':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - Cloud
+      summary: List Azure Locations
+      operationId: restListAzureLocationsUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: credentialsName
+          in: query
+          description: Cloud credentials name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Region'
+  '/cloud/azure/resourcegroups':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - Cloud
+      summary: ListAzureResourceGroups
+      operationId: restListAzureResourceGroupsUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: location
+          in: query
+          description: location
+          required: true
+          type: string
+        - name: credentialsName
+          in: query
+          description: Cloud credentials name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ResourceGroup'
+  '/cloud/azure/securitygroups':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - Cloud
+      summary: List Azure Security Groups
+      operationId: restListAzureSecurityGroupsUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: location
+          in: query
+          description: location
+          required: true
+          type: string
+        - name: credentialsName
+          in: query
+          description: Cloud credentials name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Subnet'
+  '/cloud/azure/subnets':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - Cloud
+      summary: List Azure Subnets
+      operationId: restListAzureSubnetsUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: location
+          in: query
+          description: location
+          required: true
+          type: string
+        - name: credentialsName
+          in: query
+          description: Cloud credentials name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Subnet'
+  '/cloud/credentials':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - CloudCredentials
+      summary: List Credentials
+      operationId: restListCredentialsUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CredentialsDescription'
+  '/cloud/credentials/{credName}':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - CloudCredentials
+      summary: Describe Credentials
+      operationId: restDescribeCredentialsUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: credName
+          in: path
+          description: Cloud credentials name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CredentialsDescription'
+    put:
+      security:
+        - basicAuth: []
+      tags:
+        - CloudCredentials
+      summary: Save Credentials
+      operationId: restSaveCredentialsUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: credName
+          in: path
+          description: Cloud credentials name
+          required: true
+          type: string
+        - in: body
+          name: credDetails
+          description: Cloud credentials details
+          required: true
+          schema:
+            $ref: '#/definitions/CloudCredentials'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/CredentialsId'
+    delete:
+      security:
+        - basicAuth: []
+      tags:
+        - CloudCredentials
+      summary: Delete Credentials
+      operationId: restDeleteCredentialsUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: credName
+          in: path
+          description: Cloud credentials name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+
+  '/cloudextensions':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - CEs
+      summary: List Cloud Extensions
+      operationId: restListCesUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CloudExtensionDescription'
+        
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - CEs
+      summary: Create Cloud Extension
+      operationId: restCreateCloudExtensionUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: createCloudExtensionRequest
+          description: Create Cloud Extension request
+          required: true
+          schema:
+            $ref: '#/definitions/CreateCloudExtensionRequest'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+        
+  '/cloudextensions/{cloudExtensionId}':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - CEs
+      summary: Describe Cloud Extension
+      operationId: restDescribeCloudExtensionUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: cloudExtensionId
+          in: path
+          description: Cloud Extension ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CloudExtensionDescription'
+        
+    delete:
+      security:
+        - basicAuth: []
+      tags:
+        - CEs
+      summary: Delete Cloud Extension
+      operationId: restDeleteCloudExtensionUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: cloudExtensionId
+          in: path
+          description: Cloud Extension ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/TaskId'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  '/cloudextensions/{cloudExtensionId}/instancetypes':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - CEs
+      summary: Get Instance Types
+      operationId: restGetInstanceTypesUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: cloudExtensionId
+          in: path
+          description: Cloud Extension ID
+          required: true
+          type: string
+        - name: availabilitysetid
+          in: query
+          description: Availability set ID
+          required: false
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/InstanceType'
+        
+  '/cloudextensions/{cloudExtensionId}/cloud/azure/availabilitysets':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - CEs
+      summary: List Availability Sets
+      operationId: restListAvailabilitySetsUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: cloudExtensionId
+          in: path
+          description: Cloud Extension ID
+          required: true
+          type: string
+        - name: resourceGroupId
+          in: query
+          description: Resource group ID
+          required: true
+          type: string
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AvailabilitySet'
+        
+  '/cloudextensions/{cloudExtensionId}/operations/repair':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - CEs
+      summary: Repair Cloud Extension
+      operationId: restRepairCloudExtensionUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: cloudExtensionId
+          in: path
+          description: Cloud Extension ID
+          required: true
+          type: string
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+
+        
+  '/cloudextensions/{cloudExtensionId}/operations/start':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - CEs
+      summary: Start Cloud Extension
+      operationId: restStartCloudExtensionUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: cloudExtensionId
+          in: path
+          description: Cloud Extension ID
+          required: true
+          type: string
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+
+  '/cloudextensions/{cloudExtensionId}/operations/stop':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - CEs
+      summary: Stop Cloud Extension
+      operationId: restStopCloudExtensionUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: cloudExtensionId
+          in: path
+          description: Cloud Extension ID
+          required: true
+          type: string
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+        
+  '/cloudextensions/{cloudExtensionId}/operations/moveVm':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - CEs
+      summary: Move VM To Cloud
+      operationId: restMoveVmToCloudUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: cloudExtensionId
+          in: path
+          description: Cloud Extension ID
+          required: true
+          type: string
+        - in: body
+          name: moveSpec
+          description: Move to cloud request
+          required: true
+          schema:
+            $ref: '#/definitions/MoveToCloudRequest'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+
+  '/cloudextensions/{cloudExtensionId}/operations/cloneVm':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - CEs
+      summary: Clone VM To Cloud
+      operationId: restCloneVmToCloudUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: cloudExtensionId
+          in: path
+          description: Cloud Extension ID
+          required: true
+          type: string
+        - in: body
+          name: moveSpec
+          description: Move to cloud request
+          required: true
+          schema:
+            $ref: '#/definitions/MoveToCloudRequest'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+
+  '/cloudextensions/{cloudExtensionId}/operations/fullMigrateVm':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - CEs
+      summary: Fully Migrate VM To Cloud
+      operationId: restFullMigrateVmToCloudUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: cloudExtensionId
+          in: path
+          description: Cloud Extension ID
+          required: true
+          type: string
+        - in: body
+          name: moveSpec
+          description: Move to cloud request
+          required: true
+          schema:
+            $ref: '#/definitions/MoveToCloudRequest'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+
+  '/cloudextensions/{cloudExtensionId}/cloud/azure/resourcegroups':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - CEs
+      summary: List Resource Groups
+      operationId: restListResourceGroupsUsingGET_1
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: cloudExtensionId
+          in: path
+          description: Cloud Extension ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ResourceGroup'
+        
+  '/cloudextensions/{cloudExtensionId}/securitygroups':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - CEs
+      summary: Describe Security Groups
+      operationId: restDescribeSecurityGroupsUsingGET_1
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: cloudExtensionId
+          in: path
+          description: Cloud Extension ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SecurityGroup'
+        
+  '/cloudextensions/{cloudExtensionId}/subnets':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - CEs
+      summary: Describe Subnets
+      operationId: restDescribeSubnetsUsingGET_1
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: cloudExtensionId
+          in: path
+          description: Cloud Extension ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Subnet'
+
+  '/cloudextensions/{cloudExtensionId}/cloud/azure/storageaccounts':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - CEs
+      summary: List Storage Accounts
+      operationId: restListStorageAccountsUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: cloudExtensionId
+          in: path
+          description: Cloud Extension ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              type: string
+        
+  '/mgmt/downloadupgradepackage':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - Management
+      summary: Download Management Upgrade Package
+      operationId: restDownloadManagementUpgradePackageUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: url
+          in: query
+          description: URL
+          required: true
+          type: string
+        - name: checksum
+          in: query
+          description: Checksum of upgrade package
+          required: true
+          type: string
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+        
+  '/mgmt/upgrade':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - Management
+      summary: Upgrade Management
+      operationId: restUpgradeManagementUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: checksum
+          in: query
+          description: Checksum of upgrade package
+          required: true
+          type: string
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+
+  '/tasks':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - Tasks
+      summary: List Active Tasks
+      operationId: restListActiveTasksUsingGET
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/TaskDescriptionPage'
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - Tasks
+      summary: List Tasks
+      operationId: restListTasksUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: pageRequest
+          description: Page request
+          required: true
+          schema:
+            $ref: '#/definitions/PageRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/TaskDescriptionPage'
+        
+  '/tasks/{taskId}':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - Tasks
+      summary: Describe Task
+      operationId: restDescribeTaskUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: taskId
+          in: path
+          description: Task ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/TaskDescription'
+        
+    delete:
+      security:
+        - basicAuth: []
+      tags:
+        - Tasks
+      summary: Cancel Task
+      operationId: restCancelTaskUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: taskId
+          in: path
+          description: Task ID
+          required: true
+          type: string
+      responses:
+        '202':
+          description: Accepted
+        '204':
+          description: No Content
+
+  '/vms':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: List Managed VMs
+      operationId: restListManagedVmsUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/VmStateDescription'
+        
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Find Managed VMs
+      operationId: restFindManagedVmsUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: pageRequest
+          description: Page request
+          required: true
+          schema:
+            $ref: '#/definitions/PageRequest'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/VmStateDescriptionPage'
+        
+  '/vms/{vmId}':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Describe Managed VM
+      operationId: restDescribeManagedVmUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: vmId
+          in: path
+          description: Virtual machine ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ManagedVmDescription'
+
+  '/vms/{vmId}/console':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Get Cloud Console Text
+      operationId: restGetCloudConsoleTextUsingGET
+      produces:
+        - text/plain
+      parameters:
+        - name: vmId
+          in: path
+          description: Virtual machine ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '4xx':
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorInfo'
+
+  '/vms/{vmId}/screen':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Get Cloud Screen Image
+      operationId: restGetCloudScreenImageUsingGET
+      produces:
+        - image/jpeg
+        - image/bmp
+      parameters:
+        - name: vmId
+          in: path
+          description: Virtual machine ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+            format: binary
+        '4xx':
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorInfo'
+
+  '/vms/{vmId}/operations/canceldetach':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Cancel Detach
+      operationId: restCancelDetachUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: vmId
+          in: path
+          description: Virtual machine ID
+          required: true
+          type: string
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+
+  '/vms/{vmId}/operations/cleanup':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Cleanup VM
+      operationId: restCleanupVmUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: vmId
+          in: path
+          description: Virtual machine ID
+          required: true
+          type: string
+        - name: force
+          in: query
+          description: Force
+          required: false
+          type: boolean
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+
+  '/vms/{vmId}/operations/deleteclone':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Delete Clone
+      operationId: restDeleteCloneUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: vmId
+          in: path
+          description: Virtual machine ID
+          required: true
+          type: string
+        - name: force
+          in: query
+          description: Force
+          required: false
+          type: boolean
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+        
+  '/vms/{vmId}/operations/detach':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Detach
+      operationId: restDetachUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: vmId
+          in: path
+          description: Virtual machine ID
+          required: true
+          type: string
+        - in: body
+          name: detachRequest
+          description: Detach virtual machine request
+          required: true
+          schema:
+            $ref: '#/definitions/DetachVmRequest'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+
+  '/vms/{vmId}/operations/migrate':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Migrate
+      operationId: restMigrateUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: vmId
+          in: path
+          description: Virtual machine ID
+          required: true
+          type: string
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+        
+  '/vms/{vmId}/operations/preparetodetach':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Prepare To Detach
+      operationId: restPrepareToDetachUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: vmId
+          in: path
+          description: Virtual machine ID
+          required: true
+          type: string
+        - in: body
+          name: storageSpec
+          description: Storage Specifications
+          required: true
+          schema:
+            $ref: '#/definitions/TargetStorageSpec'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+
+  '/vms/{vmId}/operations/probe':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Probe
+      operationId: restProbeUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: vmId
+          in: path
+          description: Virtual machine ID
+          required: true
+          type: string
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: boolean
+        
+  '/vms/{vmId}/operations/reboot':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Reboot
+      operationId: restRebootUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: vmId
+          in: path
+          description: Virtual machine ID
+          required: true
+          type: string
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+        
+  '/vms/{vmId}/operations/reconfigure':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Reconfigure
+      operationId: restReconfigureUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: vmId
+          in: path
+          description: Virtual machine ID
+          required: true
+          type: string
+        - in: body
+          name: reconfigureSpec
+          description: Reconfigure Specifications
+          required: true
+          schema:
+            $ref: '#/definitions/ReconfigureVmRequest'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+        
+  '/vms/{vmId}/operations/return':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Return From Cloud
+      operationId: restReturnUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: vmId
+          in: path
+          description: Virtual machine ID
+          required: true
+          type: string
+        - name: force
+          in: query
+          description: Force
+          required: false
+          type: boolean
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+        
+  '/vms/{vmId}/operations/start':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Start
+      operationId: restStartUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: vmId
+          in: path
+          description: Virtual machine ID
+          required: true
+          type: string
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+        
+  '/vms/{vmId}/operations/stop':
+    post:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Stop
+      operationId: restStopUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: vmId
+          in: path
+          description: Virtual machine ID
+          required: true
+          type: string
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaskId'
+        
+  '/vms/{vmId}/instancetypes':
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - VMs
+      summary: Get Available Instance Types For VM
+      operationId: restGetInstanceTypesForVmUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: vmId
+          in: path
+          description: Virtual machine ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/InstanceType'
+
+definitions:
+  ProxyConfiguration:
+    type: object
+    required:
+      - host
+      - port
+      - useForData
+    properties:
+      host:
+        type: string
+      port:
+        type: integer
+        format: int32
+      useForData:
+        type: boolean
+        
+        
+  EntityId:
+    type: object
+    discriminator: '_type'
+    required:
+      - '_type'
+    properties:
+      value:
+        type: string
+      '_type':
+        type: string
+        enum:
+          - CloudExtensionId
+          - CredentialsId
+          - TaskId
+          - VmId
+
+  VmId:
+    allOf:
+      - $ref: '#/definitions/EntityId'
+      - type: object
+        properties:
+          '_type':
+            type: string
+            enum:
+              - VmId
+
+  CloudExtensionId:
+    allOf:
+      - $ref: '#/definitions/EntityId'
+      - type: object
+        properties:
+          '_type':
+            type: string
+            enum:
+              - CloudExtensionId
+  TaskId:
+    allOf:
+      - $ref: '#/definitions/EntityId'
+      - type: object
+        properties:
+          '_type':
+            type: string
+            enum:
+              - TaskId
+
+  CredentialsId:
+    allOf:
+      - $ref: '#/definitions/EntityId'
+      - type: object
+        properties:
+          '_type':
+            type: string
+            enum:
+              - CredentialsId
+
+  ExporterStatus:
+    type: string
+    enum:
+      - Terminated
+      - Active
+      - Impaired
+
+  VmExporter:
+    type: object
+    properties:
+      instanceId:
+        type: string
+      managedVmId:
+        $ref: '#/definitions/VmId'
+      status:
+        $ref: '#/definitions/ExporterStatus'
+
+  ManagedVmState:
+    type: string
+    enum:
+      - Unmanaged
+      - MovingToCloud
+      - InCloud
+      - ReturningFromCloud
+
+  MigrationState:
+    type: string
+    enum:
+      - None
+      - CacheOnDemand
+      - Migrating
+      - Paused
+      - FullyCached
+      - PreparingToDetach
+      - ReadyToDetach
+      - Detaching
+      - Detached
+      - CleaningUp
+      - CancellingDetach
+
+  EdgeNode:
+    type: string
+    enum:
+      - NodeA
+      - NodeB
+
+  RunMode:
+    type: string
+    enum:
+      - Normal
+      - TestClone
+
+  CloudInstanceState:
+    type: string
+    enum:
+      - None
+      - Started
+      - Stopped
+
+  VmStateDescription:
+    type: object
+    properties:
+      cloudExtension:
+        $ref: '#/definitions/CloudExtensionId'
+      cloudInstanceState:
+        $ref: '#/definitions/CloudInstanceState'
+      edgeNode:
+        $ref: '#/definitions/EdgeNode'
+      id:
+        $ref: '#/definitions/VmId'
+      instanceUuid:
+        type: string
+        format: uuid
+      migrationState:
+        $ref: '#/definitions/MigrationState'
+      runMode:
+        $ref: '#/definitions/RunMode'
+      isSpot:
+        type: boolean
+      state:
+        $ref: '#/definitions/ManagedVmState'
+      activeTasks:
+        type: array
+        items:
+          $ref: '#/definitions/TaskId'
+      uncommittedWrites:
+        type: integer
+        format: int64
+      uncommittedWritesLastSync:
+        type: string
+        format: date
+      storagePolicy:
+        $ref: '#/definitions/StoragePolicy'
+
+  AvailabilityState:
+    type: string
+    enum:
+      - Pending
+      - Available
+
+  Vpc:
+    type: object
+    properties:
+      cidrBlock:
+        type: string
+      default:
+        type: boolean
+      id:
+        type: string
+      state:
+        $ref: '#/definitions/AvailabilityState'
+      tags:
+        type: array
+        items:
+          $ref: '#/definitions/Tag'
+
+  GraphData:
+    type: object
+    properties:
+      seriesList:
+        type: array
+        items:
+          $ref: '#/definitions/Series'
+      title:
+        type: string
+
+  Page:
+    discriminator: '_type'
+    required:
+      - '_type'
+    properties:
+      number:
+        type: integer
+        format: int32
+        default: 0
+      numberOfElements:
+        type: integer
+        format: int32
+        default: 0
+      totalElements:
+        type: integer
+        format: int64
+        default: 0
+      totalPages:
+        type: integer
+        format: int32
+        default: 0
+      '_type':
+        type: string
+        enum:
+          - TaskDescriptionPage
+          - VmStateDescriptionPage
+
+  TaskDescriptionPage:
+    allOf:
+      - $ref: '#/definitions/Page'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/TaskDescription'
+          '_type':
+            type: string
+            enum:
+              - TaskDescriptionPage
+
+  VmStateDescriptionPage:
+    allOf:
+      - $ref: '#/definitions/Page'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/VmStateDescription'
+          '_type':
+            type: string
+            enum:
+              - VmStateDescriptionPage
+
+  HealthCheckName:
+    type: string
+    enum:
+      - StorageGrid
+      - ScsiTarget
+      - LocalStorage
+      - CloudEdgeService
+      - CloudEdgeFunctionality
+      - ExporterService
+      - ExporterFunctionality
+      - OnPremisesEdgeService
+      - OnPremisesEdgeFunctionality
+      - CloudApiWANOutage
+      - VpnWANOutage
+      - InstanceAvailability
+      - InstanceTerminated
+      - InstanceStopped
+      - InternalError
+
+  CheckedElementType:
+    type: string
+    enum:
+      - EdgeA
+      - EdgeB
+      - OnPremisesEdge
+      - WindowsServicingInstance
+      - CloudApi
+      - VPN
+
+  CheckResultType:
+    type: string
+    enum:
+      - ResultNotAvailable
+      - ResultAvailable
+
+  FailedHealthCheckResultDetails:
+    type: object
+    properties:
+      healthCheck:
+        $ref: '#/definitions/HealthCheckName'
+      component:
+        $ref: '#/definitions/CheckedElementType'
+
+  OnPremDescription:
+    type: object
+    properties:
+      entityId:
+        type: string
+
+  PageRequest:
+    type: object
+    properties:
+      filter:
+        $ref: '#/definitions/Filter'
+      page:
+        type: integer
+        format: int32
+        default: 0
+      size:
+        type: integer
+        format: int32
+        default: 0
+
+  AdditionInfoKey:
+    type: string
+    enum:
+      - MigrationProgressByteCount
+      - MigrationTotalByteCount
+      - DetachProcessedRecords
+      - DetachTotalRecords
+      - ExporterInstanceId
+      - SpotRequestId
+
+  TaskState:
+    type: string
+    enum:
+      - Running
+      - Failed
+      - Cancelled
+      - Succeeded
+      - Failing
+      - Cancelling
+
+  TaskType:
+    type: string
+    enum:
+      - RunVmInCloud
+      - RunVmOnPrem
+      - StartVm
+      - StopVm
+      - RebootVm
+      - ReconfigureVm
+      - CreateCloudExtension
+      - DeleteCloudExtension
+      - StopCloudExtension
+      - StartCloudExtension
+      - RepairCloudExtension
+      - MigrateToCloud
+      - PrepareToDetach
+      - DetachVm
+      - CleanupVm
+      - CancelDetach
+      - FullMigration
+      - UpgradeManagement
+      - DownloadMgmtPackage
+
+  StringToObjectMap:
+    additionalProperties:
+      type: object
+
+  TaskDescription:
+    type: object
+    properties:
+      additionalInfo:
+        $ref: '#/definitions/StringToObjectMap'
+      endTime:
+        type: string
+        format: date
+      entity:
+        $ref: '#/definitions/EntityId'
+      errorDetails:
+        type: string
+      errorMessage:
+        type: array
+        items:
+          type: string
+      id:
+        $ref: '#/definitions/TaskId'
+      onPremisesTaskId:
+        type: string
+      parentTaskId:
+        $ref: '#/definitions/TaskId'
+      progress:
+        type: integer
+        format: int32
+      progressMessage:
+        type: array
+        items:
+          type: string
+      startTime:
+        type: string
+        format: date
+      state:
+        $ref: '#/definitions/TaskState'
+      subTasks:
+        type: array
+        items:
+          $ref: '#/definitions/TaskId'
+      type:
+        $ref: '#/definitions/TaskType'
+      username:
+        type: string
+  DataPoint:
+    type: object
+    properties:
+      x:
+        type: integer
+        format: int32
+      'y':
+        type: number
+        format: double
+
+  InstanceType:
+    type: object
+    properties:
+      cpus:
+        type: integer
+        format: int32
+      maxDataDiskCount:
+        type: integer
+        format: int32
+      memory:
+        type: number
+        format: double
+      name:
+        type: string
+      resourceDiskSize:
+        type: number
+        format: double
+
+  CeSize:
+    type: string
+    enum:
+      - Large
+      - Small
+
+  LicenseType:
+    type: string
+    enum:
+      - BringYourOwnLicense
+      - Marketplace
+  CloudExtensionBase:
+    type: object
+    discriminator: '_type'
+    required:
+          - '_type'
+    properties:
+      credentials:
+        $ref: '#/definitions/CredentialsId'
+      size:
+        $ref: '#/definitions/CeSize'
+      edgeAInstanceId:
+        type: string
+      edgeBInstanceId:
+        type: string
+      licenseType:
+        $ref: '#/definitions/LicenseType'
+      vmExporters:
+        type: array
+        items:
+          $ref: '#/definitions/VmExporter'
+      windowsServicingInstanceId:
+        type: string
+      workloadDefaultSecurityGroupId:
+        type: string
+      workloadDefaultSubnetId:
+        type: string
+      '_type':
+        type: string
+        enum:
+          - AzureCloudExtension
+          - AwsCloudExtension
+
+  AwsCloudExtension:
+    allOf:
+      - $ref: '#/definitions/CloudExtensionBase'
+      - type: object
+        properties:
+          region:
+            type: string
+          vpcId:
+            type: string
+          bucketName:
+            type: string
+          edgeAAvailabilityZone:
+            type: string
+          edgeBAvailabilityZone:
+            type: string
+          '_type':
+            type: string
+            enum:
+              - AwsCloudExtension
+
+  AzureCloudExtension:
+      allOf:
+        - $ref: '#/definitions/CloudExtensionBase'
+        - type: object
+          properties:
+            location:
+              type: string
+            availabilitySetId:
+              type: string
+            resourceGroupId:
+              type: string
+            workloadDefaultResourceGroupId:
+              type: string
+            virtualNetwork:
+              type: string
+            objectStoreAccountId:
+              type: string
+            '_type':
+              type: string
+              enum:
+                - AzureCloudExtension
+
+  AvailabilitySet:
+    type: object
+    properties:
+      id:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+  ResourceGroup:
+    type: object
+    properties:
+      id:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+
+  CloudProvider:
+    type: string
+    enum:
+      - Aws
+      - Azure
+
+  CloudExtensionState:
+    type: string
+    enum:
+      - Invalid
+      - Creating
+      - Repairing
+      - Deleting
+      - Active
+      - Impaired
+      - Stopping
+      - Stopped
+      - Starting
+
+  CloudExtensionStateDescription:
+    type: object
+    properties:
+      id:
+        $ref: '#/definitions/CloudExtensionId'
+      name:
+        type: string
+      uuid:
+        type: string
+        format: uuid
+      cloudProvider:
+        $ref: '#/definitions/CloudProvider'
+      currentTask:
+        $ref: '#/definitions/TaskId'
+      failedHealthChecks:
+        type: array
+        items:
+          $ref: '#/definitions/FailedHealthCheckResultDetails'
+      lastTimeSeenActive:
+        type: string
+        format: date
+      state:
+        $ref: '#/definitions/CloudExtensionState'
+
+  PowerState:
+    type: string
+    enum:
+      - Starting
+      - Running
+      - Stopping
+      - Stopped
+      - ShuttingDown
+      - Terminated
+      - Unknown
+
+  InstanceStatusDetails:
+    type: object
+    properties:
+      name:
+        type: string
+      status:
+        type: string
+      impairedSince:
+        type: string
+        format: date
+
+  InstanceStatusSummary:
+    type: object
+    properties:
+      status:
+        type: string
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/InstanceStatusDetails'
+
+  InstanceStatus:
+    type: object
+    properties:
+      systemStatus:
+        $ref: '#/definitions/InstanceStatusSummary'
+      instanceStatus:
+        $ref: '#/definitions/InstanceStatusSummary'
+
+  TenancyType:
+    type: string
+    enum:
+      - Default
+      - Dedicated
+
+  InstanceState:
+    type: string
+    enum:
+      - Pending
+      - Running
+      - ShuttingDown
+      - Terminated
+      - Stopping
+      - Stopped
+
+  InstanceNetworkInterface:
+    type: object
+    properties:
+      elasticIp:
+        type: string
+      id:
+        type: string
+      description:
+        type: string
+
+  CloudVmInfo:
+    type: object
+    discriminator: '_type'
+    required:
+      - '_type'
+    properties:
+      errorDetails:
+        $ref: '#/definitions/StringToObjectMap'
+      id:
+        type: string
+      powerState:
+        $ref: '#/definitions/PowerState'
+      privateIpAddress:
+        type: string
+      subnetId:
+        type: string
+      type:
+        $ref: '#/definitions/InstanceType'
+      '_type':
+        type: string
+        enum:
+          - AwsInstanceInfo
+          - AzureVmInfo
+
+  AzureVmInfo:
+    allOf:
+      - $ref: '#/definitions/CloudVmInfo'
+      - type: object
+        properties:
+          securityGroups:
+            type: array
+            items:
+              $ref: '#/definitions/SecurityGroup'
+          publicIpAddressId:
+            type: string
+          faultDomain:
+            type: integer
+          updateDomain:
+            type: integer
+          availabilitySetId:
+            type: string
+          osDiskUri:
+            type: string
+          osType:
+            type: string
+          resourceGroupId:
+            type: string
+          '_type':
+            type: string
+            enum:
+              - AzureVmInfo
+
+  AwsInstanceInfo:
+    allOf:
+      - $ref: '#/definitions/CloudVmInfo'
+      - type: object
+        properties:
+          tenancyType:
+            $ref: '#/definitions/TenancyType'
+          isSpot:
+            type: boolean
+          securityGroups:
+            type: array
+            items:
+              $ref: '#/definitions/SecurityGroup'
+          publicIpAddress:
+            type: string
+          privateDnsName:
+            type: string
+          state:
+            $ref: '#/definitions/InstanceState'
+          networkInterfaces:
+            type: array
+            items:
+              $ref: '#/definitions/InstanceNetworkInterface'
+          tags:
+            type: array
+            items:
+              $ref: '#/definitions/Tag'
+          status:
+            $ref: '#/definitions/InstanceStatus'
+          availabilityZone:
+            type: string
+          launchTime:
+            type: string
+            format: date
+          platform:
+            type: string
+          stateChangeReason:
+            type: string
+          '_type':
+            type: string
+            enum:
+              - AwsInstanceInfo
+
+  PricingModel:
+    type: object
+    discriminator: '_type'
+    required:
+      - '_type'
+    properties:
+      '_type':
+        type: string
+        enum:
+          - OnDemandPricingModel
+          - SpotMarketBidParams
+
+  OnDemandPricingModel:
+      allOf:
+        - $ref: '#/definitions/PricingModel'
+        - type: object
+          properties:
+            '_type':
+              type: string
+              enum:
+                - OnDemandPricingModel
+
+
+  SpotMarketBidParams:
+    allOf:
+      - $ref: '#/definitions/PricingModel'
+      - type: object
+        properties:
+          maxPrice:
+            type: number
+            format: double
+          definedDuration:
+            type: integer
+          '_type':
+            type: string
+            enum:
+              - SpotMarketBidParams
+
+  StoragePolicy:
+    type: string
+    enum:
+      - Writeback
+      - WriteIsolation
+
+  MoveToCloudRequest:
+    type: object
+    discriminator: '_type'
+    properties:
+      sourceVmId:
+        type: string
+      instanceType:
+        type: string
+      securityGroupIds:
+        type: array
+        items:
+          type: string
+      subnetId:
+        type: string
+      staticAddress:
+        type: string
+      edgeNode:
+        $ref: '#/definitions/EdgeNode'
+      runMode:
+        $ref: '#/definitions/RunMode'
+      storagePolicy:
+        $ref: '#/definitions/StoragePolicy'
+      targetStorageSpec:
+        $ref: '#/definitions/TargetStorageSpec'
+      '_type':
+        type: string
+        enum:
+          - MoveToAwsRequest
+          - MoveToAzureRequest
+    required:
+      - '_type'
+      - sourceVmId
+      - instanceType
+      - edgeNode
+      - runMode
+
+  MoveToAwsRequest:
+    allOf:
+      - $ref: '#/definitions/MoveToCloudRequest'
+      - type: object
+        properties:
+          pricingModel:
+            $ref: '#/definitions/PricingModel'
+          '_type':
+            type: string
+            enum:
+              - MoveToAwsRequest
+        required:
+        - pricingModel
+
+  MoveToAzureRequest:
+    allOf:
+      - $ref: '#/definitions/MoveToCloudRequest'
+      - type: object
+        properties:
+          resourceGroupId:
+            type: string
+          availabilitySetId:
+            type: string
+          '_type':
+            type: string
+            enum:
+              - MoveToAzureRequest
+
+  DetachVmRequest:
+    type: object
+    properties:
+      targetInstanceType:
+        type: string
+    required:
+      - targetInstanceType
+
+  ReconfigureVmRequest:
+    type: object
+    properties:
+      instanceType:
+        type: string
+      storagePolicy:
+        $ref: '#/definitions/StoragePolicy'
+      securityGroupIds:
+        type: array
+        items:
+          type: string
+
+  TargetStorageSpec:
+    type: object
+    discriminator: '_type'
+    properties:
+      '_type':
+        type: string
+        enum:
+          - AwsTargetStorageSpec
+          - AzureTargetStorageSpec
+    required:
+      - '_type'
+
+  AwsTargetStorageSpec:
+    allOf:
+      - $ref: '#/definitions/TargetStorageSpec'
+      - type: object
+        properties:
+          storageType:
+            type: string
+          '_type':
+            type: string
+            enum:
+              - AwsTargetStorageSpec
+        required:
+          - storageType
+
+  AzureTargetStorageSpec:
+    allOf:
+      - $ref: '#/definitions/TargetStorageSpec'
+      - type: object
+        properties:
+          storageAccount:
+            type: string
+          '_type':
+            type: string
+            enum:
+              - AzureTargetStorageSpec
+        required:
+              - storageAccount
+
+  SecurityGroup:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      location:
+        type: string
+      tags:
+        type: array
+        items:
+          $ref: '#/definitions/Tag'
+  Role:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+  Series:
+    type: object
+    properties:
+      datapoints:
+        type: array
+        items:
+          $ref: '#/definitions/DataPoint'
+      name:
+        type: string
+
+  CloudExtensionDescription:
+    type: object
+    properties:
+      stateInfo:
+        $ref: '#/definitions/CloudExtensionStateDescription'
+      cloudInfo:
+        $ref: '#/definitions/CloudExtensionBase'
+      onPremInfo:
+        $ref: '#/definitions/OnPremDescription'
+      
+  ManagedVmDescription:
+    type: object
+    properties:
+      cloudInfo:
+        $ref: '#/definitions/CloudVmInfo'
+      onPremInfo:
+        $ref: '#/definitions/OnPremDescription'
+      stateInfo:
+        $ref: '#/definitions/VmStateDescription'
+
+  Filter:
+    type: object
+    discriminator: '_type'
+    properties:
+      '_type':
+        type: string
+        enum:
+          - IdFilter
+          - TaskEntityIdFilter
+          - TaskStateFilter
+    required:
+      - '_type'
+
+  IdFilter:
+    allOf:
+      - $ref: '#/definitions/Filter'
+      - type: object
+        properties:
+          ids:
+            type: array
+            items:
+              $ref: '#/definitions/EntityId'
+          '_type':
+            type: string
+            enum:
+              - IdFilter
+        required:
+              - ids
+
+  TaskEntityIdFilter:
+    allOf:
+      - $ref: '#/definitions/Filter'
+      - type: object
+        properties:
+          id:
+            $ref: '#/definitions/EntityId'
+          '_type':
+            type: string
+            enum:
+              - TaskEntityIdFilter
+        required:
+              - id
+
+  TaskStateFilter:
+    allOf:
+      - $ref: '#/definitions/Filter'
+      - type: object
+        properties:
+          state:
+            type: array
+            items:
+              $ref: '#/definitions/TaskState'
+          '_type':
+            type: string
+            enum:
+              - TaskStateFilter
+        required:
+              - state
+
+  Region:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+  Tag:
+    type: object
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+  Subnet:
+    type: object
+    properties:
+      availabilityZone:
+        type: string
+      cidrBlock:
+        type: string
+      id:
+        type: string
+
+  CreateCloudExtensionRequest:
+    type: object
+    discriminator: '_type'
+    required:
+      - '_type'
+      - cloudCredentials
+      - dataCenterId
+      - name
+      - licenseType
+      - workloadDefaultSecurityGroupId
+      - workloadDefaultSubnetId
+    properties:
+      cloudCredentials:
+        $ref: '#/definitions/CredentialsId'
+      ceSize:
+        $ref: '#/definitions/CeSize'
+      dataCenterId:
+        type: string
+      name:
+        type: string
+      workloadDefaultSecurityGroupId:
+        type: string
+      workloadDefaultSubnetId:
+        type: string
+      licenseType:
+        $ref: '#/definitions/LicenseType'
+      '_type':
+        type: string
+        enum:
+          - CreateAwsCloudExtensionRequest
+          - CreateAzureCloudExtensionRequest
+      proxy:
+        $ref: '#/definitions/ProxyConfiguration'
+
+  CreateAwsCloudExtensionRequest:
+    allOf:
+      - $ref: '#/definitions/CreateCloudExtensionRequest'
+      - type: object
+        properties:
+          region:
+            type: string
+          vpcId:
+            type: string
+          s3IamRole:
+            type: string
+          primaryFrontendSubnetId:
+            type: string
+          secondaryFrontendSubnetId:
+            type: string
+          windowsServicingInstanceSubnetId:
+            type: string
+          primaryAvailabilityZone:
+            type: string
+          secondaryAvailabilityZone:
+            type: string
+          infraSecurityGroupIds:
+            type: array
+            items:
+              type: string
+          '_type':
+            type: string
+            enum:
+              - CreateAwsCloudExtensionRequest
+        required:
+          - region
+          - vpcId
+          - s3IamRole
+          - primaryFrontendSubnetId
+          - secondaryFrontendSubnetId
+          - windowsServicingInstanceSubnetId
+          - infraSecurityGroupIds
+
+  CreateAzureCloudExtensionRequest:
+    allOf:
+      - $ref: '#/definitions/CreateCloudExtensionRequest'
+      - type: object
+        properties:
+          networkSecurityGroupId:
+            type: string
+          subnetId:
+            type: string
+          location:
+            type: string
+          workloadDefaultResourceGroup:
+            type: string
+          '_type':
+            type: string
+            enum:
+              - CreateAzureCloudExtensionRequest
+        required:
+          - networkSecurityGroupId
+          - subnetId
+          - location
+
+  ErrorInfo:
+    type: object
+    properties:
+      errorCode:
+        type: string
+      url:
+        type: string
+      message:
+        type: string
+
+  CloudCredentials:
+    type: object
+    discriminator: '_type'
+    required:
+      - '_type'
+      - secret
+    properties:
+      secret:
+        type: string
+        format: password
+      '_type':
+        type: string
+        enum:
+          - AwsCredentials
+          - AzureCredentials
+
+  AwsCredentials:
+    allOf:
+      - $ref: '#/definitions/CloudCredentials'
+      - type: object
+        properties:
+          accessKey:
+            type: string
+          '_type':
+            type: string
+            enum:
+              - AwsCredentials
+        required:
+          - accessKey
+
+  AzureCredentials:
+    allOf:
+      - $ref: '#/definitions/CloudCredentials'
+      - type: object
+        properties:
+          subscriptionId:
+            type: string
+          tenantId:
+            type: string
+          clientId:
+            type: string
+          '_type':
+            type: string
+            enum:
+              - AzureCredentials
+        required:
+          - subscriptionId
+          - tenantId
+          - clientId
+
+  CredentialsDescription:
+    type: object
+    properties:
+      id:
+        $ref: '#/definitions/CredentialsId'
+      cloudProvider:
+        $ref: '#/definitions/CloudProvider'
